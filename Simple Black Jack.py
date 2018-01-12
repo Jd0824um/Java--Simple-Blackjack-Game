@@ -28,6 +28,8 @@ def play():
     print("Hand value is: " + str(get_values(*PLAYERS_HAND)) + "\n")
     print("Dealer's Hand \n")
     print(DEALERS_HAND[0])
+    blackjack_or_bust(get_values(*PLAYERS_HAND), PLAYERS_HAND)
+    blackjack_or_bust(get_values(*DEALERS_HAND), DEALERS_HAND)
 
     get_values(*DEALERS_HAND)
 
@@ -60,6 +62,7 @@ def hit_or_stay():
             print("Hand value is: " + str(get_values(*PLAYERS_HAND)) + "\n")
             print("Dealers Hand \n")
             print(DEALERS_HAND[0])
+            blackjack_or_bust(get_values(*PLAYERS_HAND), *PLAYERS_HAND)
 
             choice = int(input("1 = HIT : 2 = STAY\n"))
 
@@ -72,6 +75,16 @@ def hit_or_stay():
         hit_or_stay()
 
 
+def blackjack_or_bust(value, *hand):
+    if value > 21:
+        winner()
+
+    if len(hand) == 1:
+        if value == 21:
+            print("BLACKJACK!\n")
+            winner()
+
+
 # Method that adds cards to the dealer's hand till it reaches a hand that it can stay on.
 def dealer_choices():
     value = get_values(*DEALERS_HAND)
@@ -79,6 +92,7 @@ def dealer_choices():
     while value < 17:
         DEALERS_HAND.append(deal_card())
         value = get_values(*DEALERS_HAND)
+        blackjack_or_bust(value, *DEALERS_HAND)
 
     winner()
 
@@ -92,15 +106,22 @@ def winner():
     show_dealers_hand()
     print("Value of hand: " + str(dealer) + "\n")
 
-    if player > dealer:
+    if player > 21:
+        print("You BUSTED! Dealer WINS!\n")
+    elif dealer > 21:
+        print("Dealer BUSTED! You WIN!\n")
+    elif player == dealer:
+        print("PUSH!\n")
+    elif player == 21:
         print("You WIN!\n")
-        play_again()
+    elif dealer == 21:
+        print("Dealer WINS!\n")
+    elif player > dealer:
+        print("You WIN!\n")
     elif player < dealer:
         print("Dealer WINS!\n")
-        play_again()
-    else:
-        print("PUSH\n")
-        play_again()
+
+    play_again()
 
 
 # Creates a standard 52 card deck.
@@ -186,13 +207,6 @@ def get_values(*hand):
                 total_value += 11
         else:
             total_value += int(value[0])
-
-    if total_value > 21:
-        print("BUSTED!\n")
-
-    if len(hand) == 2:
-        if total_value == 21:
-            print("BLACKJACK!\n")
 
     return total_value
 
