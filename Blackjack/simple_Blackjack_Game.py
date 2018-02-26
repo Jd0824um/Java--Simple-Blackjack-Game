@@ -163,5 +163,9 @@ def get_values(hand):
     return total_value
 
 
-# Calls the main function
-main()
+# if you run the program from the command line, this is true
+# if you import this module into another file e.g. in your tests, it's false
+# So your program only runs from the command line, and doesn't run when you import it into your tests.
+if __name__ == '__main__':
+    # Calls the main function
+    main()
