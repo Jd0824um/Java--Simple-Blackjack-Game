@@ -18,9 +18,11 @@ class Deck:
     def deal_a_card(self):
         return self.cards.pop()
 
+    # Clears the deck
     def clear_deck(self):
         self.cards.clear()
 
+    # Returns the deck size
     def deck_size(self):
         return len(self.cards)
 

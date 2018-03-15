@@ -7,6 +7,7 @@ DEALERS_HAND = Player()
 DECK = []
 
 
+
 # Main method that starts the game
 def main():
     print("Welcome to Blackjack!\n")
@@ -164,4 +165,5 @@ def get_values(hand):
 
 
 # Calls the main function
-main()
+if __name__ == '__main__':
+    main()
